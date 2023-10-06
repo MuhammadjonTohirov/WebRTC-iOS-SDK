@@ -468,16 +468,16 @@ extension WebRTCClient: RTCDataChannelDelegate
     
     func dataChannelDidChangeState(_ parametersdataChannel: RTCDataChannel)  {
         if (parametersdataChannel.readyState == .open) {
-            AntMediaClient.printf("Data channel state is open")
+            AntMediaClient.printf("Data channel state is open \(parametersdataChannel.channelId)")
         }
         else if  (parametersdataChannel.readyState == .connecting) {
-            AntMediaClient.printf("Data channel state is connecting")
+            AntMediaClient.printf("Data channel state is connecting \(parametersdataChannel.channelId)")
         }
         else if  (parametersdataChannel.readyState == .closing) {
-            AntMediaClient.printf("Data channel state is closing")
+            AntMediaClient.printf("Data channel state is closing \(parametersdataChannel.channelId)")
         }
         else if  (parametersdataChannel.readyState == .closed) {
-            AntMediaClient.printf("Data channel state is closed")
+            AntMediaClient.printf("Data channel state is closed \(parametersdataChannel.channelId)")
         }
     }
     
