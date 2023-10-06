@@ -385,7 +385,6 @@ open class AntMediaClient: NSObject, AntMediaClientProtocol {
             
             //send current video and audio status perodically
             
-            self.sendAudioVideoStatusNotification()
             self.sendStatusUpdate()
         }
         
@@ -1275,12 +1274,12 @@ open class AntMediaClient: NSObject, AntMediaClientProtocol {
             webSocket?.write(string: jsonString);
         }
         else {
-            AntMediaClient.printf("Websocket is not connected to enableTRack for track: \(trackId) in stream: \(self.playerStreamId)")
+            AntMediaClient.printf("Websocket is not connected to enableTRack for track: \(trackId) in stream: \(self.playerStreamId ?? "no player id")")
         }
     }
     
     public func disconnect() {
-        for (streamId, webrtcClient) in self.webRTCClientMap {
+        for (_, webrtcClient) in self.webRTCClientMap {
             webrtcClient.disconnect()
         }
         

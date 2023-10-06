@@ -154,9 +154,10 @@ class WebRTCClient: NSObject {
     }
     
     public func addCandidate(_ candidate: RTCIceCandidate) {
-        self.peerConnection?.add(candidate, completionHandler: { error in
-            AntMediaClient.printf("Error (addCandidate): \(error?.localizedDescription ?? "")")
-        })
+//        self.peerConnection?.add(candidate, completionHandler: { error in
+//            AntMediaClient.printf("Error (addCandidate): \(error?.localizedDescription ?? "")")
+//        })
+        self.peerConnection?.add(candidate)
     }
     
     public func sendData(data: Data, binary: Bool = false) {
