@@ -1175,7 +1175,7 @@ open class AntMediaClient: NSObject, AntMediaClientProtocol {
     }
     
     private func getRequest() -> URLRequest {
-        var request = URLRequest(url: URL(string: self.getWsUrl())!)
+        var request = URLRequest(url: URL(string: self.getWsUrl().replacingOccurrences(of: " ", with: ""))!)
         request.timeoutInterval = 5
         return request
     }
