@@ -43,6 +43,10 @@ open class ConferenceViewController: UIViewController , AVCaptureVideoDataOutput
         publishStream = !publishStream;
         var title:String;
         
+        if publisherStreamId == nil {
+            publisherStreamId = "\(Int.random(in: 0..<100))_streamId"
+        }
+        
         //TODO: don't use flag(publishStream), use more trusted info @mekya
         if (publishStream) {
             self.conferenceClient?.publish(streamId: publisherStreamId, streamerName: "Muhammadjon", streamerMeta: "{ \"photoUrl\": \"https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg\"")
@@ -89,7 +93,7 @@ open class ConferenceViewController: UIViewController , AVCaptureVideoDataOutput
         self.conferenceClient?.delegate = self
         self.conferenceClient?.setWebSocketServerUrl(url: self.clientUrl)
         self.conferenceClient?.setLocalView(container: self.localView)
-        self.conferenceClient?.joinRoom(roomId: roomId)
+        self.conferenceClient?.joinRoom(roomId: roomId, streamId: "\(Int.random(in: 0..<200))_stream_id")
     }
     
     open override func viewWillDisappear(_ animated: Bool) {
