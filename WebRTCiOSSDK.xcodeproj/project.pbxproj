@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2E216D362BB809C70035C239 /* ClientStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E216D352BB809C70035C239 /* ClientStatistics.swift */; };
 		2E216D3D2BB8239D0035C239 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E216D3C2BB8239D0035C239 /* Dictionary+Extensions.swift */; };
+		2E79DBD52BB846730019120C /* NetResStreamerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E79DBD42BB846730019120C /* NetResStreamerInfo.swift */; };
+		2E79DBD72BB847310019120C /* AntMediaClient+InfoFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E79DBD62BB847310019120C /* AntMediaClient+InfoFetcher.swift */; };
 		2EA8C5312BABD23B00F6C304 /* AntMediaClient+Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA8C5302BABD23B00F6C304 /* AntMediaClient+Audio.swift */; };
 		A8B965F62A06969900D67CA1 /* ReplayKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8B965F52A06969900D67CA1 /* ReplayKit.framework */; };
 		A8B965F92A06969900D67CA1 /* SampleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B965F82A06969900D67CA1 /* SampleHandler.swift */; };
@@ -142,6 +144,8 @@
 /* Begin PBXFileReference section */
 		2E216D352BB809C70035C239 /* ClientStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientStatistics.swift; sourceTree = "<group>"; };
 		2E216D3C2BB8239D0035C239 /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
+		2E79DBD42BB846730019120C /* NetResStreamerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetResStreamerInfo.swift; sourceTree = "<group>"; };
+		2E79DBD62BB847310019120C /* AntMediaClient+InfoFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AntMediaClient+InfoFetcher.swift"; sourceTree = "<group>"; };
 		2EA8C5302BABD23B00F6C304 /* AntMediaClient+Audio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AntMediaClient+Audio.swift"; sourceTree = "<group>"; };
 		A8522FE02B832967007BC5A8 /* WebRTC-Sample-AppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "WebRTC-Sample-AppDebug.entitlements"; sourceTree = "<group>"; };
 		A8B965F42A06969900D67CA1 /* ScreenShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ScreenShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -259,6 +263,14 @@
 			path = extensions;
 			sourceTree = "<group>";
 		};
+		2E79DBD32BB8466B0019120C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2E79DBD42BB846730019120C /* NetResStreamerInfo.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		A8B965F72A06969900D67CA1 /* ScreenShare */ = {
 			isa = PBXGroup;
 			children = (
@@ -319,9 +331,11 @@
 		A8DABFE22A063A020007CDE7 /* api */ = {
 			isa = PBXGroup;
 			children = (
+				2E79DBD32BB8466B0019120C /* Models */,
 				A8DABFE32A063A020007CDE7 /* ConferenceClient.swift */,
 				A8DABFE42A063A020007CDE7 /* AntMediaClient.swift */,
 				2EA8C5302BABD23B00F6C304 /* AntMediaClient+Audio.swift */,
+				2E79DBD62BB847310019120C /* AntMediaClient+InfoFetcher.swift */,
 				A8DABFE52A063A020007CDE7 /* AntMediaError.swift */,
 				A8DABFE62A063A020007CDE7 /* AntMediaClientProtocol.swift */,
 				A8DABFE72A063A020007CDE7 /* AntMediaClientDelegate.swift */,
@@ -664,6 +678,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E79DBD72BB847310019120C /* AntMediaClient+InfoFetcher.swift in Sources */,
+				2E79DBD52BB846730019120C /* NetResStreamerInfo.swift in Sources */,
 				2EA8C5312BABD23B00F6C304 /* AntMediaClient+Audio.swift in Sources */,
 				2E216D362BB809C70035C239 /* ClientStatistics.swift in Sources */,
 				A8DABFEF2A063A020007CDE7 /* ConferenceClient.swift in Sources */,

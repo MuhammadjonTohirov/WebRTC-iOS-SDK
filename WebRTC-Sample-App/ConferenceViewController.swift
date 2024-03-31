@@ -235,6 +235,7 @@ extension ConferenceViewController: AntMediaClientDelegate
     public func clientDidDisconnect(_ message: String) {
         removePlayers();
     }
+    
     public func playStarted(streamId: String) {
         print("play started");
         AntMediaClient.speakerOn();

@@ -1224,7 +1224,6 @@ extension AntMediaClient: WebRTCClientDelegate {
         self.delegate?.remoteStreamRemoved(streamId: streamId)
     }
     
-    
     public func connectionStateChanged(newState: RTCIceConnectionState, streamId:String) {
         if newState == RTCIceConnectionState.closed ||
             newState == RTCIceConnectionState.disconnected ||
