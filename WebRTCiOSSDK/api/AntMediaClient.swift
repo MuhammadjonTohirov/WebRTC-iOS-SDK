@@ -68,6 +68,7 @@ open class AntMediaClient: NSObject, AntMediaClientProtocol {
     
     internal static var isDebug: Bool = false
     public weak var delegate: AntMediaClientDelegate?
+    public weak var audioRouteDelegate: AntMediaAudioRouteDelegate?
     
     private var wsUrl: String!
     private(set) var publisher: AntPeer?
@@ -1548,6 +1549,36 @@ extension AntMediaClient: RTCVideoViewDelegate {
     }
 }
 
+extension AntMediaClient {
+    public var hasExternalAudioRoutes: Bool {
+        audioPorts.contains { $0.portType == .headphones || $0.portType == .bluetoothA2DP }
+    }
+    
+    public var audioPorts: [AVAudioSessionPortDescription] {
+        AVAudioSession.sharedInstance().currentRoute.outputs
+    }
+    
+    public var canConnectToExternalAudioroute: Bool {
+        hasExternalAudioRoutes
+    }
+    
+    public func registerAudioRouteNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(audioRouteChanged(_:)), name: AVAudioSession.routeChangeNotification, object: nil)
+    }
+    
+    @objc func audioRouteChanged(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
+              let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else {
+            return
+        }
+        
+        audioPorts.forEach { port in
+            audioRouteDelegate?.audioRouteChange(type: port.portType, name: port.portName, reason: reason)
+        }
+    }
+}
+
 // where key and value is string
 extension Dictionary where Key == String, Value == Any {
     static func + (left: [String: Any], right: [String: Any]) -> [String: Any] {
@@ -1557,4 +1588,8 @@ extension Dictionary where Key == String, Value == Any {
         }
         return result
     }
+}
+
+public protocol AntMediaAudioRouteDelegate: AnyObject {
+    func audioRouteChange(type: AVAudioSession.Port, name: String, reason: AVAudioSession.RouteChangeReason)
 }
