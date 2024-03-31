@@ -51,10 +51,6 @@ public protocol ConferenceClientDelegate: AnyObject
 @available(*, deprecated, message: "Use AntMediaClient directly and take a look at the sample")
 open class ConferenceClient: ConferenceClientProtocol, WebSocketDelegate
 {
-    public func didReceive(event: Starscream.WebSocketEvent, client: Starscream.WebSocketClient) {
-        
-    }
-    
     var serverURL: String;
     var webSocket: WebSocket;
     var roomId: String!;
@@ -197,7 +193,7 @@ open class ConferenceClient: ConferenceClientProtocol, WebSocketDelegate
         webSocket.write(string: joinRoomMessage.json)
     }
     
-    public func didReceive(event: WebSocketEvent, client: WebSocket) {
+    public func didReceive(event: Starscream.WebSocketEvent, client: Starscream.WebSocketClient) {
         switch event {
         case .connected(let headers):
             AntMediaClient.printf("websocket is connected: \(headers)")

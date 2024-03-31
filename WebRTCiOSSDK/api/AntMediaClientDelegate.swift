@@ -151,12 +151,14 @@ public protocol AntMediaClientDelegate: AnyObject {
       Called when new streams join to the room
      - streams:  stream id array of the streams that join to the room
      */
+    @available(*, deprecated, message: "No need to use. New streams are added automatically. trackAdded is called automatically")
     func newStreamsJoined(streams: [String]);
     
     /**
      Called when some streams leaves from the room. So that players can be removed from the user interface
      - streams: stream id array of the stream that leaves from the room
      */
+    @available(*, deprecated, message: "No need to use. New streams are removed automatically. trackRemoved is called automatically")
     func streamsLeft(streams: [String]);
     
 }
@@ -168,7 +170,7 @@ public extension AntMediaClientDelegate {
     }
         
     func eventHappened(streamId: String, eventType: String) {
-        AntMediaClient.printf("Event\(eventType) happened in stream:\(streamId) ")
+        AntMediaClient.printf("Event: \(eventType) happened in stream: \(streamId) ")
     }
     
     func clientDidDisconnect(_ message: String) {

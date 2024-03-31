@@ -11,7 +11,7 @@ import Foundation
 import WebRTC
 import WebRTCiOSSDK
 
-open class ConferenceViewController: UIViewController , AVCaptureVideoDataOutputSampleBufferDelegate, RTCVideoViewDelegate{
+open class ConferenceViewController: UIViewController , AVCaptureVideoDataOutputSampleBufferDelegate, RTCVideoViewDelegate {
     
     /*
      PAY ATTENTION
@@ -27,37 +27,19 @@ open class ConferenceViewController: UIViewController , AVCaptureVideoDataOutput
     @IBOutlet var remoteView2: UIView!
     @IBOutlet var remoteView3: UIView!
         
-    @IBOutlet weak var joinButton: UIButton!
     var remoteViews:[RTCVideoRenderer] = []
     
     //keeps which remoteView renders which track according to the index
     var remoteViewTrackMap: [RTCVideoTrack?] = [];
         
-    var publishStream:Bool = false;
-    
     var conferenceClient: AntMediaClient?;
-    var playing = false
-        
-    @IBAction func joinButtonTapped(_ sender: Any) {
-        AntMediaClient.printf("button tapped");
-        publishStream = !publishStream;
-        var title:String;
-        
-        if publisherStreamId == nil {
-            publisherStreamId = "\(Int.random(in: 0..<100))_streamId"
-        }
-        
-        //TODO: don't use flag(publishStream), use more trusted info @mekya
-        if (publishStream) {
-            self.conferenceClient?.publish(streamId: publisherStreamId, streamerName: "Muhammadjon", streamerMeta: "{ \"photoUrl\": \"https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg\"")
-            title = "Stop";
-        }
-        else {
-            self.conferenceClient?.stop(streamId:publisherStreamId);
-            title = "Publish"
-        }
-        joinButton.setTitle(title, for: .normal);
+            
+    func generateRandomAlphanumericString(length: Int) -> String {
+        let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        return String((0..<length).map{ _ in characters.randomElement()! })
     }
+    
+    var playing = false
     
     func initRenderer(view: UIView)
     {
@@ -93,15 +75,20 @@ open class ConferenceViewController: UIViewController , AVCaptureVideoDataOutput
         self.conferenceClient?.delegate = self
         self.conferenceClient?.setWebSocketServerUrl(url: self.clientUrl)
         self.conferenceClient?.setLocalView(container: self.localView)
-        self.conferenceClient?.joinRoom(roomId: roomId, streamId: "\(Int.random(in: 0..<200))_stream_id")
+        self.conferenceClient?.joinRoom(roomId: roomId)
     }
     
     open override func viewWillDisappear(_ animated: Bool) {
-        self.conferenceClient?.leaveFromRoom()
+        //stop playing
+        self.conferenceClient?.stop(streamId: self.roomId);
+        
+        //stop publishing
+        self.conferenceClient?.stop(streamId: self.publisherStreamId);
+
+        
     }
     
     public func removePlayers() {
-        self.playing = false;
         Run.onMainThread { [self] in
             var i = 0;
             
@@ -121,61 +108,18 @@ open class ConferenceViewController: UIViewController , AVCaptureVideoDataOutput
 }
 
 
-extension ConferenceViewController: AntMediaClientDelegate
-{
-    public func clientDidDisconnect(_ message: String) {
-        
-        removePlayers();
-        
-    }
-    
+extension ConferenceViewController: AntMediaClientDelegate {
     public func clientHasError(_ message: String) {
         
     }
     
-    public func streamIdToPublish(streamId: String) {
-        
-        Run.onMainThread {
-        
-            AntMediaClient.printf("stream id to publish \(streamId)")
-            self.publisherStreamId = streamId;
-            //opens the camera
-            self.conferenceClient?.initPeerConnection(streamId: streamId, mode: AntMediaClientMode.publish)
-            
-            //if you can mute and close the camera, you can do that here
-            //self.conferenceClient?.setAudioTrack(enableTrack: false)
-            //self.conferenceClient?.setVideoTrack(enableTrack: false)
-            
-            
-            //if you want to publish immediately, uncomment the line below and just call the method below
-            //self.conferenceClient?.publish(streamId: self.publisherStreamId)
-        }
+    public func dataReceivedFromDataChannel(streamId: String, data: Data, binary: Bool) {
         
     }
     
-    public func newStreamsJoined(streams: [String]) {
-        for stream in streams {
-            AntMediaClient.printf("New stream in the room: \(stream)")
-        }
-        
-        Run.onMainThread {
-            if (!self.playing) {
-                self.playing = true;
-                self.conferenceClient?.play(streamId: self.roomId);
-                AntMediaClient.printf("Calling play command for stream\(self.roomId)")
-            }
-        }
-        
+    public func clientDidDisconnect(_ message: String) {
+        removePlayers();
     }
-       
-    public func streamsLeft(streams: [String])
-    {
-        for stream in streams {
-            AntMediaClient.printf("Stream(\(stream)) left the room")
-        }
-    }
-    
-    
     public func playStarted(streamId: String) {
         print("play started");
         AntMediaClient.speakerOn();
@@ -266,36 +210,17 @@ extension ConferenceViewController: AntMediaClientDelegate
         removePlayers();
     }
     
-    
-    
     public func publishStarted(streamId: String) {
         AntMediaClient.printf("Publish started for stream:\(streamId)")
     }
     
     public func publishFinished(streamId: String) {
         AntMediaClient.printf("Publish finished for stream:\(streamId)")
-        
-    }
-    
-    public func disconnected(streamId: String) {
-        
-    }
-    
-    public func audioSessionDidStartPlayOrRecord(streamId: String) {
-        
-    }
-    
-    public func dataReceivedFromDataChannel(streamId: String, data: Data, binary: Bool) {
-        
-    }
-    
-    public func streamInformation(streamInfo: [StreamInformation]) {
-        
     }
     
     public func videoView(_ videoView: RTCVideoRenderer, didChangeVideoSize size: CGSize) {
         AntMediaClient.printf("Video size changed to " + String(Int(size.width)) + "x" + String(Int(size.height)) + ". These changes are not handled in Simulator for now")
-        
     }
+    
 }
 
