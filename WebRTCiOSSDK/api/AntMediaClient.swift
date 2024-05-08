@@ -1415,14 +1415,14 @@ extension AntMediaClient: WebRTCClientDelegate {
         let rawJSON = String(decoding: data.data, as: UTF8.self)
         let json = rawJSON.toJSON();
         
-        if let eventType = json?[EVENT_TYPE] {
+        if let eventType = json?[EVENT_TYPE] as? String {
             if showLogAllDataComingFromDataChannel {
                 debugPrint("Data channel received an event \(eventType) - \(json ?? [:])")
             }
             
-            let streamId = json?[STREAM_ID] as! String
+            let streamId = json?[STREAM_ID] as? String ?? "-1"
             
-            if eventType as? String == UPDATE_STATUS {
+            if eventType == UPDATE_STATUS {
                 if let mic = json?[STATUS_MIC] {
                     self.delegate?.statusChangedMic(streamId: streamId, value: mic as? Bool ?? false)
                 }
@@ -1440,10 +1440,33 @@ extension AntMediaClient: WebRTCClientDelegate {
                 }
             }
             
+            if eventType == EVENT_TYPE_TRACK_LIST_UPDATED {
+                self.delegate?.trackListUpdated(
+                    streamId: streamId,
+                    value: json ?? [:]
+                )
+            }
+            
+            if eventType == AUDIO_LEVEL_CHANGED {
+                if let audioLevel = json?[AUDIO_LEVEL] as? Double {
+                    self.delegate?.audioLevelChanged(streamId: streamId, value: audioLevel)
+                }
+                
+                return
+            }
+            
             //event happened
-            self.delegate?.eventHappened(streamId:json?[STREAM_ID] as! String, eventType:eventType as! String);
-        }
-        else {
+            self.delegate?.eventHappened(
+                streamId: streamId,
+                eventType: eventType
+            )
+            
+            self.delegate?.eventHappened(
+                streamId: streamId,
+                eventType: eventType,
+                payload: json
+            )
+        } else {
             self.delegate?.dataReceivedFromDataChannel(streamId: streamId, data: data.data, binary: data.isBinary);
         }
     }

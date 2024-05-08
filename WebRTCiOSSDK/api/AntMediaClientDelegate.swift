@@ -120,7 +120,10 @@ public protocol AntMediaClientDelegate: AnyObject {
      - streamId: The id of the stream that the event happened
      - evenType: The type of the event
      */
+    @available(*, deprecated, message: "Will be removed soon")
     func eventHappened(streamId:String, eventType:String);
+    
+    func eventHappened(streamId:String, eventType:String, payload: [String:Any]?)
     
     func statusChangedMic(streamId: String, value:Bool)
     
@@ -161,9 +164,19 @@ public protocol AntMediaClientDelegate: AnyObject {
     @available(*, deprecated, message: "No need to use. New streams are removed automatically. trackRemoved is called automatically")
     func streamsLeft(streams: [String]);
     
+    func onLoadBroadcastObject(streamId: String, message: [String: Any])
+    
+    func audioLevelChanged(streamId: String, value:Double)
+    
+    func trackListUpdated(streamId: String, value: [String: Any])
 }
 
 public extension AntMediaClientDelegate {
+    func onLoadBroadcastObject(streamId: String, message: [String: Any]) { }
+    
+    func audioLevelChanged(streamId: String, value:Double) { }
+    
+    func trackListUpdated(streamId: String, value: [String: Any]) { }
     
     func clientDidConnect(_ client: AntMediaClient) {
         AntMediaClient.printf("Websocket is connected for \(client.getStreamId())")
@@ -172,6 +185,8 @@ public extension AntMediaClientDelegate {
     func eventHappened(streamId: String, eventType: String) {
         AntMediaClient.printf("Event: \(eventType) happened in stream: \(streamId) ")
     }
+    
+    func eventHappened(streamId:String, eventType:String, payload: [String:Any]?) { }
     
     func clientDidDisconnect(_ message: String) {
         AntMediaClient.printf("Websocket is disconnected with this problem:\(message)");
