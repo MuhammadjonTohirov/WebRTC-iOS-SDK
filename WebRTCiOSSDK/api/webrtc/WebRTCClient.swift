@@ -467,16 +467,16 @@ extension WebRTCClient: RTCDataChannelDelegate
     
     func dataChannelDidChangeState(_ parametersdataChannel: RTCDataChannel)  {
         if (parametersdataChannel.readyState == .open) {
-            AntMediaClient.printf("Data channel state is open \(parametersdataChannel.channelId)")
+            AntMediaClient.printf("Data channel state is open for \(String(describing: self.streamId))")
         }
         else if  (parametersdataChannel.readyState == .connecting) {
-            AntMediaClient.printf("Data channel state is connecting \(parametersdataChannel.channelId)")
+            AntMediaClient.printf("Data channel state is connecting for \(String(describing: self.streamId))")
         }
         else if  (parametersdataChannel.readyState == .closing) {
-            AntMediaClient.printf("Data channel state is closing \(parametersdataChannel.channelId)")
+            AntMediaClient.printf("Data channel state is closing for \(String(describing: self.streamId))")
         }
         else if  (parametersdataChannel.readyState == .closed) {
-            AntMediaClient.printf("Data channel state is closed \(parametersdataChannel.channelId)")
+            AntMediaClient.printf("Data channel state is closed for \(String(describing: self.streamId))")
         }
     }
     
@@ -496,7 +496,6 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
     
     
     func peerConnection(_ peerConnection: RTCPeerConnection, didAdd rtpReceiver: RTCRtpReceiver, streams mediaStreams: [RTCMediaStream]) {
-        
         
         AntMediaClient.printf("didAdd track:\(String(describing: rtpReceiver.track?.kind)) media streams count:\(mediaStreams.count) ")
         
