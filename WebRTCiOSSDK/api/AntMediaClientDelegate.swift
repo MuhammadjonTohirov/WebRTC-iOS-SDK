@@ -169,6 +169,8 @@ public protocol AntMediaClientDelegate: AnyObject {
     func audioLevelChanged(streamId: String, value:Double)
     
     func trackListUpdated(streamId: String, value: [String: Any])
+    
+    func dataChannelStateChnage(streamId: String, state: DataChannelState)
 }
 
 public extension AntMediaClientDelegate {

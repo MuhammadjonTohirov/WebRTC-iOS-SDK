@@ -1361,7 +1361,9 @@ open class AntMediaClient: NSObject, AntMediaClientProtocol {
 }
 
 extension AntMediaClient: WebRTCClientDelegate {
-    
+    func dataChannelStateChnage(streamId: String, state: DataChannelState) {
+        delegate?.dataChannelStateChnage(streamId: streamId, state: state)
+    }
     
     func trackAdded(track: RTCMediaStreamTrack, stream: [RTCMediaStream]) {
         self.delegate?.trackAdded(track: track, stream: stream)

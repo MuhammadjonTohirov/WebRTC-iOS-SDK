@@ -8,6 +8,13 @@
 import Foundation
 import WebRTC
 
+public enum DataChannelState {
+    case open
+    case closed
+    case connecting
+    case closing
+}
+
 internal protocol WebRTCClientDelegate {
     
     func sendMessage(_ message: [String: Any])
@@ -37,4 +44,6 @@ internal protocol WebRTCClientDelegate {
     func connectionStateChanged(newState: RTCIceConnectionState, streamId:String);
     
     func dataReceivedFromDataChannel(didReceiveData data: RTCDataBuffer, streamId:String);
+    
+    func dataChannelStateChnage(streamId: String, state: DataChannelState)
 }

@@ -468,15 +468,19 @@ extension WebRTCClient: RTCDataChannelDelegate
     func dataChannelDidChangeState(_ parametersdataChannel: RTCDataChannel)  {
         if (parametersdataChannel.readyState == .open) {
             AntMediaClient.printf("Data channel state is open for \(String(describing: self.streamId))")
+            delegate?.dataChannelStateChnage(streamId: self.streamId!, state: .open)
         }
         else if  (parametersdataChannel.readyState == .connecting) {
             AntMediaClient.printf("Data channel state is connecting for \(String(describing: self.streamId))")
+            delegate?.dataChannelStateChnage(streamId: self.streamId!, state: .connecting)
         }
         else if  (parametersdataChannel.readyState == .closing) {
             AntMediaClient.printf("Data channel state is closing for \(String(describing: self.streamId))")
+            delegate?.dataChannelStateChnage(streamId: self.streamId!, state: .closing)
         }
         else if  (parametersdataChannel.readyState == .closed) {
             AntMediaClient.printf("Data channel state is closed for \(String(describing: self.streamId))")
+            delegate?.dataChannelStateChnage(streamId: self.streamId!, state: .closed)
         }
     }
     
