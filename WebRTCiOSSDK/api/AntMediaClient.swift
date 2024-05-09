@@ -1373,7 +1373,6 @@ extension AntMediaClient: WebRTCClientDelegate {
         self.delegate?.trackRemoved(track: track)
     }
     
-    
     public func sendMessage(_ message: [String : Any]) {
         self.webSocket?.write(string: message.json)
     }

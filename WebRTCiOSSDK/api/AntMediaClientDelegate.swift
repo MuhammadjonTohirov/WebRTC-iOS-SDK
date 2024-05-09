@@ -174,6 +174,8 @@ public protocol AntMediaClientDelegate: AnyObject {
 }
 
 public extension AntMediaClientDelegate {
+    func dataChannelStateChnage(streamId: String, state: DataChannelState) { }
+    
     func onLoadBroadcastObject(streamId: String, message: [String: Any]) { }
     
     func audioLevelChanged(streamId: String, value:Double) { }
