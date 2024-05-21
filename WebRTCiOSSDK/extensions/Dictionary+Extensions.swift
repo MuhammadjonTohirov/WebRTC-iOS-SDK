@@ -9,6 +9,7 @@ import Foundation
 import WebRTC
 
 extension Dictionary where Key == String, Value == RTCStatistics {
+    /// Converts WebRTC RTCStatistics into custom made RTCStatItem
     func extractRTCStatItems() -> [RTCStatItem] {
         var extractedItems: [RTCStatItem] = []
 

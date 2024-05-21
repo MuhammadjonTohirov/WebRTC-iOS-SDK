@@ -1055,6 +1055,10 @@ open class AntMediaClient: NSObject, AntMediaClientProtocol {
         self.webRTCClientMap[self.getStreamId(streamId)]?.getStats(handler: completionHandler)
     }
     
+    /// Get statistics
+    /// - Parameters:
+    ///   - streamId: stream id
+    ///   - completion: callback
     public func getStatistics(
         for streamId: String = "",
         completion: @escaping (ClientStatistics) -> Void

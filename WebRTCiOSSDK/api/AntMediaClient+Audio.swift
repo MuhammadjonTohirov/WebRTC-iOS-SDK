@@ -9,6 +9,7 @@ import Foundation
 import AVFoundation
 
 extension AntMediaClient {
+    /// Setup audio notification iterruction handler
     func setupAudioNotifications() {
         // Get the default notification center instance.
         let nc = NotificationCenter.default
@@ -18,6 +19,7 @@ extension AntMediaClient {
                        object: AVAudioSession.sharedInstance())
     }
     
+    /// Remove audio notification interruption handler
     func removeAudioNotifications() {
         // Get the default notification center instance.
         let nc = NotificationCenter.default
@@ -26,6 +28,7 @@ extension AntMediaClient {
                           object: AVAudioSession.sharedInstance())
     }
     
+    /// On audio interruption happened
     @objc func handleInterruption(notification: Notification) {
         guard let userInfo = notification.userInfo,
               let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
@@ -56,6 +59,7 @@ extension AntMediaClient {
         }
     }
     
+    /// Reactivate audio session
     private func activateAudioSession() {
         DispatchQueue(label: "audio").async {() in
             AntMediaClient.rtcAudioSession.lockForConfiguration()

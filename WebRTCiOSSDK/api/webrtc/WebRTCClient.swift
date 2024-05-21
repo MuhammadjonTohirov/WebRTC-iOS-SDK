@@ -285,7 +285,7 @@ class WebRTCClient: NSObject {
     }
 
     public func disconnect() {
-        AntMediaClient.printf("disconnecting and releasing resources for \(streamId)")
+        AntMediaClient.printf("disconnecting and releasing resources for \(streamId.description)")
         //TODO: how to clear all resources
         
         if let view = self.localVideoView {
@@ -309,7 +309,7 @@ class WebRTCClient: NSObject {
         
         self.peerConnection?.close()
         self.peerConnection = nil;
-        AntMediaClient.printf("disconnected and released resources for \(streamId)")
+        AntMediaClient.printf("disconnected and released resources for \(streamId.description)")
     }
     
     public func toggleAudioEnabled() {
@@ -348,7 +348,6 @@ class WebRTCClient: NSObject {
     
     @discardableResult
     private func startCapture() -> Bool {
-        
          let camera = (RTCCameraVideoCapturer.captureDevices().first { $0.position == self.cameraPosition })
         
         if (camera != nil) {
@@ -635,6 +634,11 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
     }
 }
 
+// According to webrtc documentation
+// 0: disabled
+// 1: maintainFramerate
+// 2: maintainResolution
+// 3: balanced
 public enum RTCDegradationPreference: NSNumber {
     case disabled = 0
     case maintainFramerate = 1

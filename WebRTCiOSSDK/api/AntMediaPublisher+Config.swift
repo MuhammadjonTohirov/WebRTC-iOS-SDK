@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// AntMediaPublisher configuration
 final class AntMediaPublisherConfig {
     static let shared = AntMediaPublisherConfig()
     
